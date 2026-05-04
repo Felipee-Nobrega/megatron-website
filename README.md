@@ -32,23 +32,24 @@ Site institucional da **Megatron Informática e Serviços LTDA**, assistência t
 ```
 megatron-website/
 ├── index.html
-├── assets/
-│   ├── css/
-│   │   └── styles.css
-│   ├── js/
-│   │   └── script.js
-│   └── images/
-│       ├── logo.png
-│       ├── hero-bg.png
-│       ├── tronzinho.png
-│       ├── logo.brother.png
-│       ├── logo.canon.png.png
-│       ├── Epson-Logo.png
-│       ├── Lexmark-primary-logo.svg.png
-│       ├── Xerox-logo.png
-│       └── Kyocera_logo.svg.png
+├── README.md
 ├── .gitignore
-└── README.md
+└── assets/
+    ├── css/
+    │   └── styles.css
+    ├── js/
+    │   └── script.js
+    └── images/
+        ├── logo.png
+        ├── hero-bg.png
+        ├── tronzinho.png
+        └── brands/
+            ├── brother.png
+            ├── canon.png
+            ├── epson.png
+            ├── lexmark.png
+            ├── xerox.png
+            └── kyocera.png
 ```
 
 ---
