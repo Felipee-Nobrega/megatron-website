@@ -541,11 +541,7 @@ address { font-style: normal; }
   border-left-color: var(--text);
 }
 
-/* ═══════════════════════════
-   SCROLL REVEAL
-═══════════════════════════ */
-.reveal         { opacity: 0; transform: translateY(14px); transition: opacity .5s ease, transform .5s ease; }
-.reveal.visible { opacity: 1; transform: translateY(0); }
+/* Reveal gerenciado pelo GSAP + ScrollTrigger */
 
 /* ═══════════════════════════
    RESPONSIVE — 1024px
