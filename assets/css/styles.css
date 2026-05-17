@@ -241,7 +241,7 @@ address { font-style: normal; }
   padding: 48px 32px 32px;
   display: flex; flex-direction: column; align-items: center; gap: 24px;
   box-shadow: var(--sh-sm);
-  transition: all var(--ease);
+  transition: box-shadow var(--ease), border-color var(--ease);
   position: relative; overflow: hidden;
 }
 .brand-card-new::before {
@@ -304,7 +304,8 @@ address { font-style: normal; }
   border-radius: var(--r);
   padding: 28px 24px 22px;
   position: relative; overflow: hidden;
-  transition: all var(--ease); cursor: default;
+  transition: background var(--ease), border-color var(--ease), box-shadow var(--ease);
+  cursor: default;
 }
 .service-card-top {
   position: absolute; top: 0; left: 0; right: 0; height: 3px;
@@ -401,7 +402,8 @@ address { font-style: normal; }
   display: flex; align-items: flex-start; gap: 14px;
   padding: 28px 24px;
   background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.09);
-  border-radius: var(--r); transition: all var(--ease);
+  border-radius: var(--r);
+  transition: background var(--ease), border-color var(--ease), box-shadow var(--ease);
   position: relative; overflow: hidden;
 }
 .diff-item::before {
@@ -437,7 +439,7 @@ address { font-style: normal; }
 .review-card {
   background: var(--white); border-radius: var(--r);
   padding: 28px 24px; border: 1px solid var(--border);
-  transition: all var(--ease); position: relative;
+  transition: box-shadow var(--ease); position: relative;
 }
 .review-card:hover { box-shadow: var(--sh); transform: translateY(-2px); }
 .review-quote      { position: absolute; top: 18px; right: 20px; color: rgba(66,103,178,.1); font-size: 1.875rem; }

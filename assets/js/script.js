@@ -144,16 +144,19 @@
   /* ══════════════════════════════════════════════
      GSAP — ANIMAÇÕES
   ══════════════════════════════════════════════ */
-  if (typeof gsap === 'undefined') return;
+  if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
 
   gsap.registerPlugin(ScrollTrigger);
 
+  /* Recalcula posições após imagens carregarem */
+  window.addEventListener('load', () => ScrollTrigger.refresh());
+
   /* ── Hero: entrada ao carregar ── */
   gsap.timeline({ delay: 0.15 })
-    .from('.hero-badge',    { opacity: 0, y: 28, duration: 0.65, ease: 'power3.out' })
-    .from('.hero-title',    { opacity: 0, y: 36, duration: 0.70, ease: 'power3.out' }, '-=0.35')
-    .from('.hero-subtitle', { opacity: 0, y: 24, duration: 0.60, ease: 'power3.out' }, '-=0.30')
-    .from('.hero-actions',  { opacity: 0, y: 20, duration: 0.55, ease: 'power3.out' }, '-=0.25');
+    .fromTo('.hero-badge',    { opacity: 0, y: 28 }, { opacity: 1, y: 0, duration: 0.65, ease: 'power3.out' })
+    .fromTo('.hero-title',    { opacity: 0, y: 36 }, { opacity: 1, y: 0, duration: 0.70, ease: 'power3.out' }, '-=0.35')
+    .fromTo('.hero-subtitle', { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.60, ease: 'power3.out' }, '-=0.30')
+    .fromTo('.hero-actions',  { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.55, ease: 'power3.out' }, '-=0.25');
 
   /* ── Hero: parallax de mouse ── */
   const heroSection = document.querySelector('.hero');
@@ -175,86 +178,94 @@
     }, { passive: true });
 
     heroSection.addEventListener('mouseleave', () => {
-      gsap.to('.hero-content, .hero-badge', {
+      gsap.to(['.hero-content', '.hero-badge'], {
         x: 0, y: 0,
         duration: 1.2, ease: 'elastic.out(1, 0.6)', overwrite: 'auto'
       });
     });
   }
 
+  /* ── Helper scroll animation ── */
+  function scrollAnim(targets, fromVars, toVars, trigger, start) {
+    gsap.fromTo(targets, fromVars, {
+      ...toVars,
+      scrollTrigger: { trigger, start: start || 'top bottom', once: true }
+    });
+  }
+
   /* ── Section headers ── */
   gsap.utils.toArray('.section-header').forEach(el => {
-    gsap.from(el, {
-      scrollTrigger: { trigger: el, start: 'top 88%' },
-      opacity: 0, y: 32, duration: 0.7, ease: 'power3.out'
-    });
+    scrollAnim(el, { opacity: 0, y: 32 }, { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }, el);
   });
 
   /* ── Brands ── */
-  gsap.from('.brand-card-new', {
-    scrollTrigger: { trigger: '.brands-cards', start: 'top 85%' },
-    opacity: 0, y: 36, scale: 0.96,
-    duration: 0.65, stagger: 0.15, ease: 'back.out(1.4)'
-  });
+  scrollAnim('.brand-card-new',
+    { opacity: 0, y: 36, scale: 0.96 },
+    { opacity: 1, y: 0, scale: 1, duration: 0.65, stagger: 0.15, ease: 'back.out(1.4)' },
+    '.brands-cards'
+  );
 
-  gsap.from('.brand-strip-item', {
-    scrollTrigger: { trigger: '.brands-strip', start: 'top 90%' },
-    opacity: 0, x: -20,
-    duration: 0.5, stagger: 0.1, ease: 'power3.out'
-  });
+  scrollAnim('.brand-strip-item',
+    { opacity: 0, x: -20 },
+    { opacity: 1, x: 0, duration: 0.5, stagger: 0.1, ease: 'power3.out' },
+    '.brands-strip'
+  );
 
   /* ── Services ── */
-  gsap.from('.service-card', {
-    scrollTrigger: { trigger: '.services-grid', start: 'top 82%' },
-    opacity: 0, y: 50,
-    duration: 0.65, stagger: 0.09, ease: 'power3.out'
-  });
+  scrollAnim('.service-card',
+    { opacity: 0, y: 50 },
+    { opacity: 1, y: 0, duration: 0.65, stagger: 0.09, ease: 'power3.out' },
+    '.services-grid'
+  );
 
   /* ── About ── */
-  gsap.from('.about-visual', {
-    scrollTrigger: { trigger: '.about-inner', start: 'top 78%' },
-    opacity: 0, x: -70, duration: 0.85, ease: 'power3.out'
-  });
-
-  gsap.from('.about-content', {
-    scrollTrigger: { trigger: '.about-inner', start: 'top 78%' },
-    opacity: 0, x: 70, duration: 0.85, ease: 'power3.out'
-  });
+  scrollAnim('.about-visual',
+    { opacity: 0, x: -70 },
+    { opacity: 1, x: 0, duration: 0.85, ease: 'power3.out' },
+    '.about-inner'
+  );
+  scrollAnim('.about-content',
+    { opacity: 0, x: 70 },
+    { opacity: 1, x: 0, duration: 0.85, ease: 'power3.out' },
+    '.about-inner'
+  );
 
   /* ── Tronzinho ── */
-  gsap.from('.tronzinho-text', {
-    scrollTrigger: { trigger: '.tronzinho-cols', start: 'top 80%' },
-    opacity: 0, x: -60, duration: 0.8, ease: 'power3.out'
-  });
-
-  gsap.from('.tronzinho-img-wrap', {
-    scrollTrigger: { trigger: '.tronzinho-cols', start: 'top 80%' },
-    opacity: 0, x: 60, duration: 0.8, ease: 'power3.out'
-  });
+  scrollAnim('.tronzinho-text',
+    { opacity: 0, x: -60 },
+    { opacity: 1, x: 0, duration: 0.8, ease: 'power3.out' },
+    '.tronzinho-cols'
+  );
+  scrollAnim('.tronzinho-img-wrap',
+    { opacity: 0, x: 60 },
+    { opacity: 1, x: 0, duration: 0.8, ease: 'power3.out' },
+    '.tronzinho-cols'
+  );
 
   /* ── Differentials ── */
-  gsap.from('.diff-item', {
-    scrollTrigger: { trigger: '.diff-grid', start: 'top 82%' },
-    opacity: 0, y: 40,
-    duration: 0.6, stagger: 0.09, ease: 'power3.out'
-  });
+  scrollAnim('.diff-item',
+    { opacity: 0, y: 40 },
+    { opacity: 1, y: 0, duration: 0.6, stagger: 0.09, ease: 'power3.out' },
+    '.diff-grid'
+  );
 
   /* ── Reviews ── */
-  gsap.from('.review-card', {
-    scrollTrigger: { trigger: '.reviews-grid', start: 'top 84%' },
-    opacity: 0, y: 40,
-    duration: 0.65, stagger: 0.15, ease: 'power3.out'
-  });
+  scrollAnim('.review-card',
+    { opacity: 0, y: 40 },
+    { opacity: 1, y: 0, duration: 0.65, stagger: 0.15, ease: 'power3.out' },
+    '.reviews-grid'
+  );
 
   /* ── Location ── */
-  gsap.from('.location-info', {
-    scrollTrigger: { trigger: '.location-inner', start: 'top 82%' },
-    opacity: 0, x: -50, duration: 0.75, ease: 'power3.out'
-  });
-
-  gsap.from('.location-map', {
-    scrollTrigger: { trigger: '.location-inner', start: 'top 82%' },
-    opacity: 0, x: 50, duration: 0.75, ease: 'power3.out'
-  });
+  scrollAnim('.location-info',
+    { opacity: 0, x: -50 },
+    { opacity: 1, x: 0, duration: 0.75, ease: 'power3.out' },
+    '.location-inner'
+  );
+  scrollAnim('.location-map',
+    { opacity: 0, x: 50 },
+    { opacity: 1, x: 0, duration: 0.75, ease: 'power3.out' },
+    '.location-inner'
+  );
 
 })();
